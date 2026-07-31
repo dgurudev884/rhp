@@ -1,0 +1,30 @@
+def longestIncreasingPath(matrix: list[list[int]]) -> int:
+    if not matrix or not matrix[0]:
+        return 0
+
+    rows, cols = len(matrix), len(matrix[0])
+    memo = [[0] * cols for _ in range(rows)]
+    directions = [(1, 0), (-1, 0), (0, 1), (0, -1)]
+
+    def dfs(r: int, c: int) -> int:
+        # Return precomputed result if already evaluated
+        if memo[r][c] != 0:
+            return memo[r][c]
+
+        max_len = 1  # Minimum path length starting at cell (r, c) is 1
+
+        for dr, dc in directions:
+            nr, nc = r + dr, c + dc
+            # Move only to valid in-bounds neighbors with strictly greater values
+            if 0 <= nr < rows and 0 <= nc < cols and matrix[nr][nc] > matrix[r][c]:
+                max_len = max(max_len, 1 + dfs(nr, nc))
+
+        memo[r][c] = max_len
+        return memo[r][c]
+
+    longest_path = 0
+    for r in range(rows):
+        for c in range(cols):
+            longest_path = max(longest_path, dfs(r, c))
+
+    return longest_path
