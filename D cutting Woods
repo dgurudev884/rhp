@@ -1,0 +1,29 @@
+#include<iostream>
+#include<set>
+using namespace std;
+void solve(){
+	int l,q;
+	cin>>l>>q;
+	set<int> s;
+	s.insert(0);
+	s.insert(l);
+	while(q--){
+		int qt,x;
+		cin>>qt>>x;
+		if(qt==1){
+			s.insert(x);
+		}
+		else{
+			auto it=s.lower_bound(x);
+			cout<<*it-*(prev(it))<<endl;
+		}
+	}
+}
+int main(){
+	ios_base::sync_with_stdio(false);
+	cin.tie(nullptr);
+	int t=1;
+	while(t--){
+		solve();
+	}
+}
