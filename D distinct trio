@@ -1,0 +1,34 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+#include<queue>
+#include<map>
+#include<set>
+using namespace std;
+void solve(){
+	vector<int> ar;
+	int q;cin>>q;
+	int l=q;
+	while(q--){
+		int val;cin>>val;
+		ar.push_back(val);
+	}
+	sort(ar.begin(),ar.end());
+	long long int su=0;
+	for(int i=0;i<l;i++){
+		auto g=upper_bound(ar.begin(),ar.end(),ar[i]);
+		int indu=ar.end()-g;
+		auto l=lower_bound(ar.begin(),ar.end(),ar[i]);
+		int indl=l-ar.begin();
+		su+=1LL*indu*indl;
+	}
+	cout<<su;
+}
+int main(){
+	ios_base::sync_with_stdio(false);
+	cin.tie(nullptr);
+	int t=1;
+	while(t--){
+		solve();
+	}
+}
