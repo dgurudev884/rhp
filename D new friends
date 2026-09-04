@@ -1,0 +1,37 @@
+import java.util.*;
+class Main{
+	public static int find(int[] ldr,int node){
+		if(ldr[node]!=node){
+			ldr[node]=find(ldr,ldr[node]);
+		}
+		return ldr[node];
+	}
+	public static void join(int[] ldr,int p1,int p2){
+		ldr[find(ldr,p1)]=find(ldr,p2);
+	}
+	public static void main(String[] args){
+		Scanner sc=new Scanner(System.in);
+		int n=sc.nextInt(),m=sc.nextInt();
+		int[] ldr=new int[n+1];
+		for(int fir=1;fir<=n;fir++){
+			ldr[fir]=fir;
+		}
+		long[] no=new long[n+1];
+		long[] edge=new long[n+1];
+		for(int ip=1;ip<=m;ip++){
+			int p1=sc.nextInt(),p2=sc.nextInt();
+			join(ldr,p1,p2);
+			edge[find(ldr,p1)]++;
+		}
+		long sum=0;
+		for(int i=1;i<=n;i++){
+			no[find(ldr,i)]++;
+		}
+		for(int op=1;op<=n;op++){
+			long b=((no[op]*(no[op]-1))/2)-edge[op];
+			sum+=b;
+			
+		}
+		System.out.println((sum));
+	}
+}
