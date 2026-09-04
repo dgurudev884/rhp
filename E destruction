@@ -1,0 +1,50 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+int find(vector<int>& ldr, int node) {
+    if (ldr[node] != node) {
+        ldr[node] = find(ldr, ldr[node]);
+    }
+    return ldr[node];
+}
+void join(vector<int>& ldr, int lt, int rt) {
+    ldr[find(ldr, lt)] = find(ldr, rt);
+}
+void solve() {
+    int m, n;
+    cin >> n >> m;
+    vector<int> ldr(n + 1);
+    for (int i = 0; i <= n; i++){
+    	ldr[i] = i;
+    }
+    vector<pair<int, pair<int, int>>> pos;
+    for(int i=1;i<=m;i++){
+        int n1, n2, cost;
+        cin >> n1 >> n2 >> cost;
+        if (cost <= 0) {
+            join(ldr, n1, n2);
+        } else {
+            pos.push_back(make_pair(cost,make_pair(n1,n2)));
+        }
+    }
+    long long int rew = 0;
+    sort(pos.begin(), pos.end());
+    for (auto[cost,p] : pos) {
+        int a = p.first;
+        int b = p.second;
+        if (find(ldr, a) != find(ldr, b)) {
+            join(ldr, a, b);
+        } else {
+            rew += 1ll*cost;
+        }
+    }
+    cout << rew << "\n";
+}
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(nullptr);
+    solve();
+}
