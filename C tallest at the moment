@@ -1,0 +1,42 @@
+#include<iostream>
+#include<vector>
+#include<algorithm>
+#include<queue>
+#include<map>
+#include<set>
+using namespace std;
+void solve(){
+	int n;cin>>n;
+	vector<pair<int,int>> ar;
+	while(n--){
+		int h,l;cin>>h>>l;
+		ar.push_back(make_pair(h,l));
+	}
+	sort(ar.begin(),ar.end(),greater<>());
+	vector<int> harr;
+	vector<int>larr;
+	int prev=0;
+	for(auto[heigh,lea]:ar){
+		if(lea>prev){
+			harr.push_back(heigh);
+			larr.push_back(lea);
+			prev=lea;
+		}
+	}
+	int q;cin>>q;
+	while(q--){
+		int t;cin>>t;
+		auto it=upper_bound(larr.begin(),larr.end(),t);
+		int idx=it-larr.begin();
+		cout<<harr[idx]<<endl;
+	
+	}
+}
+int main(){
+	ios_base::sync_with_stdio(false);
+	cin.tie(nullptr);
+	int t=1;
+	while(t--){
+		solve();
+	}
+}
