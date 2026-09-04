@@ -1,0 +1,34 @@
+#include<iostream>
+#include<queue>
+#include<vector>
+#include<algorithm>
+#include<map>
+using namespace std;
+void dfs(int idx, long long rem, vector<int>& arr, int n) {
+    if (idx == n) {
+        if (rem % n == 0) {
+            arr[idx] = rem / n;
+            for (int j = 1; j <= n; j++) {
+                cout << arr[j] << (j == n ? '\n' : ' ');
+            }
+        }
+        return;
+    }
+    for (int val = 0; idx * val <= rem; val++) {
+        arr[idx] = val;
+        dfs(idx + 1, rem - idx * val, arr, n);
+    }
+}
+
+void solve() {
+    int n;
+    long long k;
+    cin >> n >> k;
+    vector<int> arr(n + 1);
+    dfs(1, k, arr, n);
+}
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(nullptr);
+    solve();
+}
