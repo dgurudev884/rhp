@@ -1,0 +1,74 @@
+class Solution {
+public:
+    vector<int> parent, sz;
+
+    int find(int x) {
+        if (parent[x] == x) return x;
+        return parent[x] = find(parent[x]);
+    }
+
+    void unite(int a, int b) {
+        a = find(a);
+        b = find(b);
+
+        if (a == b) return;
+
+        if (sz[a] < sz[b])
+            swap(a, b);
+
+        parent[b] = a;
+        sz[a] += sz[b];
+    }
+
+    int latestDayToCross(int row, int col, vector<vector<int>>& cells) {
+        int n = row * col;
+        int TOP = n;
+        int BOTTOM = n + 1;
+
+        parent.resize(n + 2);
+        sz.assign(n + 2, 1);
+
+        for (int i = 0; i < n + 2; i++)
+            parent[i] = i;
+
+        vector<vector<bool>> land(row, vector<bool>(col, false));
+
+        int dr[] = {-1, 1, 0, 0};
+        int dc[] = {0, 0, -1, 1};
+
+        for (int day = n - 1; day >= 0; day--) {
+            int r = cells[day][0] - 1;
+            int c = cells[day][1] - 1;
+
+            land[r][c] = true;
+
+            int id = r * col + c;
+
+            // Connect to virtual top/bottom nodes
+            if (r == 0)
+                unite(id, TOP);
+
+            if (r == row - 1)
+                unite(id, BOTTOM);
+
+            // Connect to neighboring land cells
+            for (int k = 0; k < 4; k++) {
+                int nr = r + dr[k];
+                int nc = c + dc[k];
+
+                if (nr >= 0 && nr < row &&
+                    nc >= 0 && nc < col &&
+                    land[nr][nc]) {
+
+                    unite(id, nr * col + nc);
+                }
+            }
+
+            // Top is connected to bottom
+            if (find(TOP) == find(BOTTOM))
+                return day;
+        }
+
+        return 0;
+    }
+};
