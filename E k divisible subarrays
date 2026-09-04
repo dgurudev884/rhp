@@ -1,0 +1,33 @@
+#include<iostream>
+#include<queue>
+#include<vector>
+#include<algorithm>
+#include<map>
+using namespace std;
+#define ll unsigned long long int 
+void solve(){
+	int n,k;
+	cin>>n>>k;
+	vector<int> dp(n+1,0);
+	map<int,int>m;
+	m[0]=0;
+	int rem=0;
+	for(int i=1;i<=n;i++){
+		int curr;cin>>curr;
+		rem=(rem+curr)%k;
+		if(m.find(rem)!=m.end()){
+			int prev=m[rem];
+			dp[i]=max(dp[i-1],1+dp[prev]);
+		}
+		else{
+			dp[i]=dp[i-1];
+		}
+		m[rem]=i;
+	}
+		cout<<dp[n];
+}
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(nullptr);
+    solve();
+}
