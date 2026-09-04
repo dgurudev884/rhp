@@ -1,0 +1,81 @@
+#include<iostream>
+#include<queue>
+#include<vector>
+#include<algorithm>
+#include<map>
+using namespace std;
+#define ll unsigned long long int 
+void solve(){
+	int R, C, K;
+    cin >> R >> C >> K;
+
+    vector<string> g(R);
+
+    for (int row = 0; row < R; row++) {
+        cin >> g[row];
+    }
+    vector<bool> br(R, false), bc(C, false);
+
+    for (int row = 0; row < R; row++) {
+        for (int col = 0; col < C; col++) {
+
+            if (g[row][col] == '#') {
+                br[row] = true;
+                bc[col] = true;
+            }
+        }
+    }
+
+    vector<vector<bool>> vis(R, vector<bool>(C, false));
+    queue<pair<int, int>> q;
+    for (int row = 0; row < R; row++) {
+        for (int col = 0; col < C; col++) {
+
+            if (g[row][col] == '.' &&
+                !br[row] &&
+                !bc[col]) {
+
+                q.push({row, col});
+                vis[row][col] = true;
+            }
+        }
+    }
+
+    int hops = 0;
+    int cellcnt = q.size();
+    const int diff[5] = {-1, 0, 1, 0, -1};
+    while (!q.empty() && hops < K) {
+
+        int qsize = q.size();
+
+        while (qsize--) {
+
+            auto [row, col] = q.front();
+            q.pop();
+
+            for (int i = 0; i < 4; i++) {
+
+                int ar = row + diff[i];
+                int ac = col + diff[i + 1];
+
+                if (ar >= 0 && ar < R &&
+                    ac >= 0 && ac < C &&
+                    !vis[ar][ac] &&
+                    g[ar][ac] == '.') {
+
+                    vis[ar][ac] = true;
+                    q.push({ar, ac});
+                    cellcnt++;
+                }
+            }
+        }
+
+        hops++;
+    }
+    cout << cellcnt << endl;
+}
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(nullptr);
+    solve();
+}
