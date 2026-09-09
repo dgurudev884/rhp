@@ -1,0 +1,31 @@
+#include <iostream>
+#include <queue>
+#include <vector>
+#include <string>
+#include <algorithm>
+#define ll unsigned long long int
+using namespace std;
+
+int main(){
+    int n,k;
+    cin>>n>>k;
+    string s;
+    cin>>s;
+    int fr=n/k;
+    vector<bool> own(fr,false);
+    for(unsigned int i=0;i<s.size();i++){
+        if(s[i]=='0'){
+            int fi=i/k;
+            own[fi]=true;
+        }
+    }
+    int ans=0;
+    for(int i=0;i<fr;i++){
+        if(!own[i]){
+            ans++;
+        }
+    }
+    cout<<ans<<endl;
+    return 0;
+    
+}
