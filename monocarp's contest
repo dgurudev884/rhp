@@ -1,0 +1,31 @@
+#include<iostream>
+#include<vector>
+using namespace std;
+void solve(){
+	int n;
+	cin>>n;
+	vector<int> arr(n);
+	int oc=0;
+	for (int i=0;i<n;i++){
+		cin>>arr[i];
+		oc+=arr[i];
+	}
+	int zc=n-oc;
+	if(zc<2){
+		cout<<"-1";
+		return;
+	}
+	int swcn=0;
+	if(arr[0]) swcn++;
+	if(arr[n-1]) swcn++;
+	cout<<swcn;}
+int main(){
+	ios::sync_with_stdio(false);
+	cin.tie(0);
+	int n;
+	cin>>n;
+	while(n--){
+		solve();
+	}
+	return 0;
+}
